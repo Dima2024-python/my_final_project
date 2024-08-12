@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "my-final-project"
+version = "0.1.0"
+description = ""
+authors = ["Dima2024-python <chagaydapython2024@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = {extras = ["all"], version = "^0.112.0"}
+flake8 = "^7.1.1"
+black = "^24.8.0"
+isort = "^5.13.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
