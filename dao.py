@@ -35,3 +35,8 @@ def get_travel_by_id(travel_id) -> Travel | None:
 def delete_travel(travel_id) -> None:
     session.query(Travel).filter(Travel.id == travel_id).delete()
     session.commit()
+
+
+def get_travel_by_country(travel_country) -> list[Travel]:
+    travel = session.query(Travel).filter(Travel.country == travel_country).all()
+    return travel
