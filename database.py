@@ -1,9 +1,11 @@
 from datetime import datetime
 
-from sqlalchemy import Column, DateTime, Float, Integer, Sequence, String, Text, create_engine
+from sqlalchemy import Column, DateTime, Float, Integer, Sequence, Text, create_engine, String, UUID, Boolean
 from sqlalchemy.orm import declarative_base, sessionmaker
 
 import config
+
+import uuid
 
 Base = declarative_base()
 
@@ -20,6 +22,20 @@ class Travel(Base):
     image = Column(String, default="")
     date_start = Column(DateTime, nullable=False)
     date_end = Column(DateTime, nullable=False)
+    created_at = Column(DateTime, default=datetime.now)
+    updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
+
+
+class User(Base):
+    __tablename__ = 'Users'
+
+    id = Column(Integer, Sequence("user_id_seq"), primary_key=True)
+    name = Column(String, index=True)
+    email = Column(String, unique=True)
+    hashed_password = Column(String)
+    user_uuid = Column(UUID, default=uuid.uuid4)
+    is_verified = Column(Boolean, default=False)
+    is_admin = Column(Boolean, default=False)
     created_at = Column(DateTime, default=datetime.now)
     updated_at = Column(DateTime, default=datetime.now, onupdate=datetime.now)
 
