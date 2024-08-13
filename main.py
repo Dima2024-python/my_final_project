@@ -54,3 +54,9 @@ def get_travel_by_id(travel_id: int) -> NewTravel:
 def delete_travel(travel_id: int = Path(gt=0, description="ID of the product")):
     dao.delete_travel(travel_id=travel_id)
     return None
+
+
+@app.get('/travel_by_country')
+def get_travel_by_country(travel_country) -> list[NewTravel]:
+    travel = dao.get_travel_by_country(travel_country)
+    return travel
