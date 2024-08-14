@@ -40,3 +40,11 @@ def delete_travel(travel_id) -> None:
 def get_travel_by_country(travel_country) -> list[Travel]:
     travel = session.query(Travel).filter(Travel.country == travel_country).all()
     return travel
+
+
+def update_travel(travel_id: int, travel_data: dict) -> Travel:
+    travel_data['image'] = str(travel_data['image'])
+    session.query(Travel).filter(Travel.id == travel_id).update(travel_data)
+    session.commit()
+    travel = session.query(Travel).filter(Travel.id == travel_id).first()
+    return travel
