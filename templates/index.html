@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+ {% block content %}
+
+    {% for travel in travels %}
+    <div class="card" style="width: 18rem;">
+  <img src="{{travel.image}}" class="card-img-top" alt="...">
+  <div class="card-body">
+    <h5 class="card-title">{{travel.title}}</h5>
+    <p class="card-text">{{travel.description}}</p>
+  </div>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item">Ціна подорожі {{travel.price}}грн</li>
+    <li class="list-group-item">Клас готелю {{travel.hotel_class}}☆</li>
+    <li class="list-group-item">Дата виїзду {{travel.date_start}}</li>
+    <li class="list-group-item">Дата приїзду {{travel.date_end}}</li>
+  </ul>
+  <div class="card-body">
+    <button type="button" class="btn btn-success">Придбати квиток</button>
+    <button type="button" class="btn btn-warning">Додати в кошик</button>
+  </div>
+</div>
+
+
+    {% endfor %}
+
+
+
+
+
+
+
+
+    {% endblock %}
