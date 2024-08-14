@@ -7,7 +7,7 @@ from starlette import status
 import dao
 
 
-api_router = APIRouter(prefix='/api')
+api_router = APIRouter(prefix='/api', tags=['travel'])
 
 
 class NewTravel(BaseModel):
