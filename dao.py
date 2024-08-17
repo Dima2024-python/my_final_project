@@ -45,6 +45,18 @@ def get_travel_by_country(travel_country) -> list[Travel]:
     return travel
 
 
+def get_travel_by_price(travel_price) -> list[Travel]:
+    travel = session.query(Travel).filter(Travel.price == travel_price).all()
+    print(travel, 999999999999999999999999999)
+    return travel
+
+
+def get_travel_by_hotel_class(travel_hotel_class) -> list[Travel]:
+    travel = session.query(Travel).filter(Travel.hotel_class == travel_hotel_class).all()
+    print(travel, 7777777777777777777777)
+    return travel
+
+
 def update_travel(travel_id: int, travel_data: dict) -> Travel:
     travel_data['image'] = str(travel_data['image'])
     session.query(Travel).filter(Travel.id == travel_id).update(travel_data)
