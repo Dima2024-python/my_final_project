@@ -10,7 +10,7 @@ from background_tasks_travel_agency.confirm_registration import confirm_registra
 from dao_travel_agency import get_all_travel
 from utils.jwt_auth import set_cookies_web, get_user_web
 from utils.utils_hashlib import verify_password
-from database_travel_agency import Order, OrderTravel, session, Travel
+from database_travel_agency import Order, OrderTravel, session
 
 templates = Jinja2Templates(directory="templates")
 
