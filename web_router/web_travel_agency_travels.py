@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Form, BackgroundTasks, HTTPException, Depends
+from fastapi import APIRouter, Form, BackgroundTasks, Depends
 from fastapi.requests import Request
 from fastapi.templating import Jinja2Templates
 from starlette import status
