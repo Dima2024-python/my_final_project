@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="{{ url_for('index') }}">&#8592;Вийти з кошика</a>
+  </div>
+</nav>
+
+<div class="container">
+    <div class="row pt-2 pb-2 container">
+
+
+
+
+        <table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Країна</th>
+      <th scope="col">Кількість квитків</th>
+      <th scope="col">Загальна вартість подорожі</th>
+    </tr>
+  </thead>
+  <tbody>
+
+  {% for order_travel in cart %}
+    {% if order_travel.quantity != 0 %}
+    <tr>
+      <td>{{ order_travel.travel.name }}</td>
+      <td style="display: flex; align-items: center;">
+
+          <form method="post" action="{{url_for('quantity_travel_decrease')}}">
+          <input type="number" name="travel_id" value="{{order_travel.travel.id}}" hidden="">
+          <button type="submit" class="btn btn-light">⬇</button>
+          </form>
+
+          {{ order_travel.quantity }}
+
+          <form method="post" action="{{url_for('quantity_travel_increase')}}">
+          <input type="number" name="travel_id" value="{{order_travel.travel.id}}" hidden="">
+          <button type="submit" class="btn btn-light">⬆</button>
+          </form>
+
+           <form method="post" action="{{url_for('quantity_travel_delete')}}">
+          <input type="number" name="travel_id" value="{{order_travel.travel.id}}" hidden="">
+          <button type="submit" class="btn btn-light">&#x274C;</button>
+          </form>
+
+
+      </td>
+      <td>{{ order_travel.cost }}грн</td>
+    </tr>
+
+    {% endif %}
+    {% endfor %}
+  <tr>
+      <td><b>Всього</b></td>
+      <td><b>За {{ total_ticket }} білетів</b></td>
+      <td><b>{{ total }}грн</b></td>
+    </tr>
+  </tbody>
+</table>
+       <form method="post" action="#">
+        <button type="submit" class="btn btn-success">Оплатити квитки</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

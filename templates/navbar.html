@@ -1,29 +1,58 @@
 <nav class="navbar navbar-expand-lg bg-body-tertiary">
   <div class="container-fluid">
-      <a class="navbar-brand" href="{{ url_for('index') }}">Туристичне агенство!</a>
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSk4WIrhKDwGxROUoOqp1xZbhEgQYUCRH38GQ&s" class="rounded float-start" style="max-width: 75px;">
+      <a class="navbar-brand"></a>
+      <a class="navbar-brand"></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="btn btn-outline-primary" aria-current="page" href="{{ url_for('search') }}">Пошук подорожей 🔍</a>
+            <a class="navbar-brand"></a>
+            <a class="navbar-brand"></a>
+        </li>
+      </ul>
+      {% if user %}
+          <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="btn btn-outline-secondary" aria-current="page" href="{{ url_for('cart') }}">Кошик &#x1F6D2;</a>
+        </li>
+      </ul>
+
+
+        {% endif %}
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Опції
-          </a>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="{{ url_for('search') }}">Пошук подорожей</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
+      </ul>
 
+
+
+      {% if not user %}
+      <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('web_register') }}">Зареєструватися</a>
         </li>
       </ul>
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" aria-current="page" href="#">Зареєструватися</a>
+            <a class="nav-link active" aria-current="page" href="{{ url_for('web_login') }}">Залогінитися</a>
         </li>
       </ul>
+      {% else %}
+      <ul class="navbar-nav">
+        <li class="nav-item">
+            <p class="nav-link active" aria-current="page">Вітаємо тебе, {{ user.name }}</p>
+        </li>
+      </ul>
+
+      <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{{ url_for('web_logout') }}">Розлогінитись</a>
+        </li>
+      </ul>
+      {% endif %}
+
     </div>
   </div>
 </nav>
