@@ -1,11 +1,14 @@
 import uuid
 
-from database import Travel, session, User
+from sqlalchemy.orm import joinedload
+from sqlalchemy import select
+
+from database_travel_agency import Travel, session, User, OrderTravel
 from utils.utils_hashlib import get_password_hash
 
 
 def create_travel(
-    title: str, description: str, price: float, country: str, image, hotel_class: int, date_start, date_end
+    title: str, description: str, price: float, country: str, image, hotel_class: int, ticket_quantity: int, date_start, date_end
 ) -> Travel:
     travel = Travel(
         title=title,
@@ -13,6 +16,7 @@ def create_travel(
         description=description,
         price=price,
         hotel_class=hotel_class,
+        ticket_quantity=ticket_quantity,
         image=str(image),
         date_start=date_start,
         date_end=date_end,
@@ -66,22 +70,25 @@ def update_travel(travel_id: int, travel_data: dict) -> Travel:
 
 
 def create_user(name: str, email: str, password: str) -> User:
-    user = User(
-        name=name,
-        email=email,
-        hashed_password=get_password_hash(password),
-    )
-    session.add(user)
-    session.commit()
-    return user
+    try:
+        user = User(
+            name=name,
+            email=email,
+            hashed_password=get_password_hash(password),
+        )
+        session.add(user)
+        session.commit()
+        return user
+    except Exception:
+        return session.rollback()
 
 
 def get_user_by_email(email: str) -> User | None:
-    query = session.query(User).filter(User.email == email).first()
-    return query
+    user = session.query(User).filter(User.email == email).first()
+    return user
 
 
-def get_user_by_uuid(user_uuid: uuid.UUID) -> User | None:
+def get_user_by_uuid(user_uuid: uuid.UUID | str) -> User | None:
     query = session.query(User).filter(User.user_uuid == user_uuid).first()
     return query
 
@@ -89,9 +96,29 @@ def get_user_by_uuid(user_uuid: uuid.UUID) -> User | None:
 def activate_account(user: User) -> User:
     if user.is_verified:
         return user
-
+    
     user.is_verified = True
     session.add(user)
     session.commit()
     session.refresh(user)
     return user
+
+
+def get_or_create(model, **kwargs):
+    query = select(model).filter_by(**kwargs)
+    instance = session.execute(query).scalar_one_or_none()
+    if instance:
+        return instance
+
+    instance = model(**kwargs)
+    session.add(instance)
+    session.commit()
+    return instance
+
+
+def fetch_order_travels(order_id: int) -> list:
+    query = select(OrderTravel).filter(
+        OrderTravel.order_id == order_id
+    ).options(joinedload(OrderTravel.travel))
+    result = session.execute(query).scalars().all()
+    return result
